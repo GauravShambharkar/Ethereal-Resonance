@@ -1,26 +1,38 @@
 import React from "react";
 import { usePianoStore } from "@/store/store";
+import { useDashboardStore } from "../store/dashboard.store";
+import SoundSelectionModal from "./SoundSelectionModal";
 
 const Dashboard = () => {
-  const { bpm } = usePianoStore();
+  const { bpm, oscillatorType } = usePianoStore();
+  const { isSoundModalOpen, setIsSoundModalOpen } = useDashboardStore();
 
   return (
     <div className="px-12 pb-6 z-10">
       <div className="grid grid-cols-4 gap-4">
-        {/* Preset Card */}
-        <div className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group hover:border-primary/30 transition-all duration-500">
-          <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">
-            Current Preset
+        {/* Sound Selection Card */}
+        <button 
+          onClick={() => setIsSoundModalOpen(true)}
+          className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group hover:border-primary/30 transition-all duration-500 text-left relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span className="font-label text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3 relative z-10">
+            Current Sound
           </span>
-          <div className="flex justify-between items-center">
-            <span className="font-headline text-lg font-light text-on-surface">
-              Glass Morning
+          <div className="flex justify-between items-center relative z-10">
+            <span className="font-headline text-lg font-light text-on-surface group-hover:text-primary transition-colors capitalize">
+              {oscillatorType.replace("fatsawtooth22", "Nocturnal Echo")}
             </span>
             <span className="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-              auto_awesome
+              tune
             </span>
           </div>
-        </div>
+        </button>
+
+        <SoundSelectionModal 
+          isOpen={isSoundModalOpen} 
+          onClose={() => setIsSoundModalOpen(false)} 
+        />
 
         {/* Reverb Card */}
         <div className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group">
