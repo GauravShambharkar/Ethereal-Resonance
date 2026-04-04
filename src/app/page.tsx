@@ -37,12 +37,6 @@ export default function Home() {
         onClose={() => setIsExportModalOpen(false)}
       />
 
-      {/* Mobile Floating Action element (optional/hidden) */}
-      <div className="md:hidden fixed bottom-8 right-8 z-50">
-        <button className="w-16 h-16 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-[0_10px_30px_#aacaea55]">
-          <span className="material-symbols-outlined">music_note</span>
-        </button>
-      </div>
     </div>
   );
 }
