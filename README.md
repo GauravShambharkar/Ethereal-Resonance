@@ -1,1 +1,1 @@
-<img width="1920" height="1080" alt="ethereal" src="https://github.com/user-attachments/assets/84039e76-3784-4e04-a7af-475d6ccd371c" />
+<img width="1920" height="1080" alt="ethereal" src="https://github.com/user-attachments/assets/a500fb8f-6234-40a4-b8e4-49c23efe3ec1" />
