@@ -21,10 +21,10 @@ interface PianoState {
 export const usePianoStore = create<PianoState>()(
   persist(
     (set) => ({
-      keyCount: 7,
+      keyCount: 12,
       setKeyCount: (count) => set({ keyCount: count }),
       exportSettings: {
-        format: "midi",
+        format: "wave",
         sampleRate: "sr-96",
         bitDepth: "bd-32",
       },

@@ -9,7 +9,6 @@ const Sidebar = () => {
   const { keyCount, setKeyCount } = usePianoKeys();
 
   const options = [
-    { label: "7 Keys", value: "7", icon: "reorder" },
     { label: "12 Keys", value: "12", icon: "apps" },
     { label: "24 Keys", value: "24", icon: "grid_view" },
   ];

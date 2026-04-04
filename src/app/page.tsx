@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import Navbar from "@/components/common/Navbar";
+import Sidebar from "@/components/common/Sidebar";
 import Hero from "@/features/hero/components/Hero";
 import Piano from "@/features/piano/components/Piano";
 import Dashboard from "@/features/dashboard/components/Dashboard";

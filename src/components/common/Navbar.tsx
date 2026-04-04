@@ -116,21 +116,6 @@ const Navbar = ({ onExportClick }: { onExportClick: () => void }) => {
           />
         </div>
 
-        {/* Separator */}
-        <div className="h-4 w-px bg-white/5"></div>
-
-        {["Composition", "Library", "Tuning"].map((item, i) => (
-          <a
-            key={item}
-            href="#"
-            className={`font-headline uppercase tracking-[0.2em] text-[10px] transition-all duration-500 ${i === 0
-              ? "text-primary border-b border-primary/40 pb-1"
-              : "text-on-surface-variant/40 hover:text-primary"
-              }`}
-          >
-            {item}
-          </a>
-        ))}
       </div>
 
       <div className="flex items-center gap-6">
