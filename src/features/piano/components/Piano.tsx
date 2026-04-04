@@ -2,40 +2,12 @@
 
 import React from "react";
 import { usePianoStore } from "@/store/store";
-
-const PianoKey = ({
-  note,
-  hasBlackKey = false,
-  isActive = false,
-}: {
-  note: string;
-  hasBlackKey?: boolean;
-  isActive?: boolean;
-}) => {
-  return (
-    <div className="relative group">
-      <div
-        className={`piano-key-white w-16 h-80 rounded-b-lg cursor-pointer transition-all duration-300 hover:brightness-110 active:brightness-90 active:scale-[0.98] relative flex flex-col justify-end items-center pb-6 border-t border-white/10 ${
-          isActive ? "shadow-[0_0_40px_rgba(170,202,234,0.15)]" : ""
-        }`}
-      >
-        <span
-          className={`font-label text-[10px] tracking-widest uppercase font-bold z-10 ${
-            isActive ? "text-on-secondary" : "text-on-secondary/50"
-          }`}
-        >
-          {note}
-        </span>
-      </div>
-      {hasBlackKey && (
-        <div className="absolute top-0 right-0 translate-x-1/2 active:scale-[0.98] piano-key-black w-8 h-48 rounded-b-lg z-10 cursor-pointer border-t border-white/5 active:brightness-125"></div>
-      )}
-    </div>
-  );
-};
+import { PianoKeys } from "./PianoKeys";
+import { usePianoKeys } from "../pianoKeys.hook";
 
 const Piano = () => {
-  const { keyCount } = usePianoStore();
+  const { keyCount: urlKeyCount } = usePianoKeys();
+  const keyCount = parseInt(urlKeyCount?.totalKeys || "7");
 
   const getKeys = () => {
     // Standard pattern for white/black keys in one octave (7 white keys)
@@ -75,7 +47,7 @@ const Piano = () => {
         <div className="absolute inset-x-0 top-0 h-full piano-strike-glow opacity-30 pointer-events-none"></div>
 
         {currentKeys.map((key, i) => (
-          <PianoKey
+          <PianoKeys
             key={`${key.note}-${i}`}
             note={key.note}
             hasBlackKey={key.hasBlackKey && i < currentKeys.length - 1} // No black key on very last white key usually?
