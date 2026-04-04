@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import Hero from "@/components/Hero";
-import Piano from "@/components/Piano";
-import Dashboard from "@/components/Dashboard";
-import ExportModal from "@/components/ExportModal";
+import Hero from "@/features/hero/components/Hero";
+import Piano from "@/features/piano/components/Piano";
+import Dashboard from "@/features/dashboard/components/Dashboard";
+import ExportModal from "@/features/export/components/ExportModal";
 
 export default function Home() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
