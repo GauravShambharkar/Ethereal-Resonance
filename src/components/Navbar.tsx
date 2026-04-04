@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { usePianoStore } from "@/store/store";
-import { Timer, Settings2, Sliders, Play, Square } from "lucide-react";
+import { Timer, Settings2, Sliders, Play, Square, Plus, Minus } from "lucide-react";
 import * as Tone from "tone";
 
 const Navbar = ({ onExportClick }: { onExportClick: () => void }) => {
@@ -80,18 +80,34 @@ const Navbar = ({ onExportClick }: { onExportClick: () => void }) => {
             )}
           </button>
           <div className="h-4 w-px bg-white/10 mx-1"></div>
-          <div className="flex items-center gap-2">
-            <span className="font-headline text-[10px] text-on-surface-variant/60 uppercase tracking-widest">
+          <div className="flex items-center gap-3">
+            <span className="font-headline text-[10px] text-on-surface-variant/60 uppercase tracking-widest pointer-events-none">
               BPM
             </span>
-            <input
-              type="number"
-              value={bpm}
-              onChange={(e) => setBpm(Number(e.target.value))}
-              className="bg-transparent border-none text-[10px] font-headline text-tertiary w-8 focus:ring-0 p-0 text-center selection:bg-primary/30"
-              min="40"
-              max="240"
-            />
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setBpm(Math.max(40, bpm - 1))}
+                className="text-on-surface-variant/40 hover:text-primary transition-all duration-300 active:scale-75 cursor-pointer"
+                aria-label="Decrease BPM"
+              >
+                <Minus size={12} />
+              </button>
+              <input
+                type="number"
+                value={bpm}
+                onChange={(e) => setBpm(Number(e.target.value))}
+                className="bg-transparent border-none text-[10px] font-headline outline-none text-tertiary w-8 focus:ring-0 p-0 text-center selection:bg-primary/30 font-semibold"
+                min="40"
+                max="240"
+              />
+              <button
+                onClick={() => setBpm(Math.min(240, bpm + 1))}
+                className="text-on-surface-variant/40 hover:text-primary transition-all duration-300 active:scale-75 cursor-pointer"
+                aria-label="Increase BPM"
+              >
+                <Plus size={12} />
+              </button>
+            </div>
           </div>
           <Timer
             size={14}
