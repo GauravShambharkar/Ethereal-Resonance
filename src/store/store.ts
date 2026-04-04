@@ -12,6 +12,10 @@ interface PianoState {
   setKeyCount: (count: number) => void;
   exportSettings: ExportSettings;
   setExportSettings: (settings: Partial<ExportSettings>) => void;
+  bpm: number;
+  setBpm: (bpm: number) => void;
+  isMetronomePlaying: boolean;
+  setIsMetronomePlaying: (playing: boolean) => void;
 }
 
 export const usePianoStore = create<PianoState>()(
@@ -28,6 +32,10 @@ export const usePianoStore = create<PianoState>()(
         set((state) => ({
           exportSettings: { ...state.exportSettings, ...settings },
         })),
+      bpm: 72,
+      setBpm: (bpm) => set({ bpm }),
+      isMetronomePlaying: false,
+      setIsMetronomePlaying: (playing) => set({ isMetronomePlaying: playing }),
     }),
     {
       name: "ethereal-piano-storage",

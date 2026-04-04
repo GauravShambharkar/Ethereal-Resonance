@@ -1,8 +1,9 @@
-"use client";
-
 import React from "react";
+import { usePianoStore } from "@/store/store";
 
 const Dashboard = () => {
+  const { bpm } = usePianoStore();
+
   return (
     <div className="px-12 pb-6 z-10">
       <div className="grid grid-cols-4 gap-4">
@@ -48,11 +49,12 @@ const Dashboard = () => {
         </div>
 
         {/* BPM Card */}
-        <div className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg flex flex-col justify-center items-center">
-          <span className="font-headline text-2xl font-extralight tracking-tighter text-on-surface">
-            72
+        <div className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg flex flex-col justify-center items-center group relative overflow-hidden">
+          <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+          <span className="font-headline text-2xl font-extralight tracking-tighter text-on-surface relative z-10 transition-all group-hover:scale-110">
+            {bpm}
           </span>
-          <span className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1">
+          <span className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mt-1 relative z-10">
             BPM
           </span>
         </div>
