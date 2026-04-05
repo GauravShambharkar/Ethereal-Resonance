@@ -9,14 +9,23 @@ export const MetronomeUI = () => {
     const { isMetronomePlaying, toggleMetronome } = useMetronome();
     const { bpm, setBpm } = usePianoStore();
 
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    const displayBpm = isMounted ? bpm : 72;
+    const displayPlaying = isMounted ? isMetronomePlaying : false;
+
     return (
         <div className="flex items-center gap-3 px-4 py-1.5 bg-surface-container-low/40 rounded-full border border-white/5 group transition-all hover:border-primary/20">
             <button
                 onClick={toggleMetronome}
-                className={`transition-all duration-500 ${isMetronomePlaying ? "text-primary animate-pulse" : "text-on-surface-variant/40"
+                className={`transition-all duration-500 ${displayPlaying ? "text-primary animate-pulse" : "text-on-surface-variant/40"
                     }`}
             >
-                {isMetronomePlaying ? (
+                {displayPlaying ? (
                     <Square size={16} fill="currentColor" />
                 ) : (
                     <Play size={16} fill="currentColor" />
@@ -37,11 +46,12 @@ export const MetronomeUI = () => {
                     </button>
                     <input
                         type="number"
-                        value={bpm}
+                        value={displayBpm}
                         onChange={(e) => setBpm(Number(e.target.value))}
                         className="bg-transparent border-none text-[10px] font-headline outline-none text-tertiary w-8 focus:ring-0 p-0 text-center selection:bg-primary/30 font-semibold"
                         min="40"
                         max="240"
+                        suppressHydrationWarning
                     />
                     <button
                         onClick={() => setBpm(Math.min(240, bpm + 1))}
@@ -54,7 +64,7 @@ export const MetronomeUI = () => {
             </div>
             <Timer
                 size={14}
-                className={`transition-all duration-700 ${isMetronomePlaying ? "text-primary rotate-45" : "text-on-surface-variant/20"
+                className={`transition-all duration-700 ${displayPlaying ? "text-primary rotate-45" : "text-on-surface-variant/20"
                     }`}
             />
         </div>

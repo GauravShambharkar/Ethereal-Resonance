@@ -12,32 +12,34 @@ export default function Home() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-background text-on-surface overflow-hidden">
-      {/* Sidebar Controls */}
-      <Sidebar />
+    <React.Suspense fallback={<div className="h-screen w-full bg-background" />}>
+      <div className="flex h-screen bg-background text-on-surface overflow-hidden">
+        {/* Sidebar Controls */}
+        <Sidebar />
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Navigation */}
-        <Navbar onExportClick={() => setIsExportModalOpen(true)} />
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Navigation */}
+          <Navbar onExportClick={() => setIsExportModalOpen(true)} />
 
-        {/* Main Content Area */}
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Branding & Status Info */}
-          <Hero />
+          {/* Main Content Area */}
+          <main className="flex-1 flex flex-col overflow-hidden">
+            {/* Branding & Status Info */}
+            <Hero />
 
-          {/* Piano Instrument */}
-          <Piano />
+            {/* Piano Instrument */}
+            <Piano />
 
-          {/* Bottom Control Dashboard */}
-          <Dashboard />
-        </main>
+            {/* Bottom Control Dashboard */}
+            <Dashboard />
+          </main>
+        </div>
+
+        {/* Export Selection Modal */}
+        <ExportModal
+          isOpen={isExportModalOpen}
+          onClose={() => setIsExportModalOpen(false)}
+        />
       </div>
-
-      {/* Export Selection Modal */}
-      <ExportModal
-        isOpen={isExportModalOpen}
-        onClose={() => setIsExportModalOpen(false)}
-      />
-    </div>
+    </React.Suspense>
   );
 }
