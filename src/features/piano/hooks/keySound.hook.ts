@@ -7,10 +7,11 @@ export const useKeySound = () => {
   const pianoRef = useRef<Tone.Sampler | null>(null);
   const reverbRef = useRef<Tone.Reverb | null>(null);
   const delayRef = useRef<Tone.FeedbackDelay | null>(null);
-  const { adsr, oscillatorType, reverb, delay, instrument } = usePianoStore();
+  const autoFilterRef = useRef<Tone.AutoFilter | null>(null);
+  const { adsr, oscillatorType, reverb, delay, instrument, lfo } = usePianoStore();
 
   useEffect(() => {
-    // Effect chain setup
+    // 1. Initialize static audio graph ONCE
     reverbRef.current = new Tone.Reverb({
       decay: 6,
       wet: reverb,
@@ -22,25 +23,12 @@ export const useKeySound = () => {
       wet: delay,
     }).connect(reverbRef.current);
 
-    // Map oscillator types to more complex synth engines
-    const getSynthType = (type: string) => {
-      if (type.includes("fat")) return Tone.FMSynth;
-      if (type === "pwm") return Tone.AMSynth;
-      if (type === "pulse") return Tone.MonoSynth;
-      return Tone.Synth;
-    }
-
-    const synthType = getSynthType(oscillatorType);
-
-    synthRef.current = new Tone.PolySynth(synthType as any, {
-      oscillator: { type: oscillatorType } as any,
-      envelope: {
-        attack: adsr.attack,
-        decay: adsr.decay,
-        sustain: adsr.sustain,
-        release: adsr.release,
-      },
-    } as any).connect(delayRef.current);
+    autoFilterRef.current = new Tone.AutoFilter({
+      frequency: lfo.frequency,
+      depth: lfo.depth,
+      baseFrequency: 500,
+      octaves: 4,
+    }).start().connect(delayRef.current);
 
     // Piano sampler integration
     pianoRef.current = new Tone.Sampler({
@@ -78,15 +66,78 @@ export const useKeySound = () => {
       },
       release: 1,
       baseUrl: "https://tonejs.github.io/audio/salamander/",
-    }).connect(delayRef.current);
+    }).connect(autoFilterRef.current);
 
     return () => {
-      synthRef.current?.dispose();
       pianoRef.current?.dispose();
       reverbRef.current?.dispose();
       delayRef.current?.dispose();
+      autoFilterRef.current?.dispose();
     };
-  }, [adsr, oscillatorType, reverb, delay]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run ONLY once on mount
+
+  // 2. Synthesizer recreation ONLY on oscillatorType change
+  useEffect(() => {
+    const getSynthType = (type: string) => {
+      if (type.includes("fat")) return Tone.FMSynth;
+      if (type === "pwm") return Tone.AMSynth;
+      if (type === "pulse") return Tone.MonoSynth;
+      return Tone.Synth;
+    }
+
+    const synthType = getSynthType(oscillatorType);
+
+    if (synthRef.current) {
+      synthRef.current.dispose();
+    }
+
+    synthRef.current = new Tone.PolySynth(synthType as any, {
+      oscillator: { type: oscillatorType } as any,
+      envelope: {
+        attack: adsr.attack,
+        decay: adsr.decay,
+        sustain: adsr.sustain,
+        release: adsr.release,
+      },
+    } as any).connect(autoFilterRef.current!);
+
+    return () => {
+      synthRef.current?.dispose();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [oscillatorType]);
+
+  // 3. Dynamic parameter updates
+  useEffect(() => {
+    if (reverbRef.current) reverbRef.current.wet.value = reverb;
+  }, [reverb]);
+
+  useEffect(() => {
+    if (delayRef.current) delayRef.current.wet.value = delay;
+  }, [delay]);
+
+  useEffect(() => {
+    if (autoFilterRef.current) {
+      autoFilterRef.current.set({
+        frequency: lfo.frequency,
+        depth: lfo.depth,
+      });
+    }
+  }, [lfo]);
+
+  useEffect(() => {
+    if (synthRef.current) {
+      synthRef.current.set({
+        envelope: {
+          attack: adsr.attack,
+          decay: adsr.decay,
+          sustain: adsr.sustain,
+          release: adsr.release,
+        }
+      });
+    }
+  }, [adsr]);
 
   const startNote = useCallback(async (note: string) => {
     // Ensure the audio context starts on user interaction

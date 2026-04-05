@@ -36,7 +36,7 @@ const AdsrSlider = ({
 );
 
 const Hero = () => {
-  const { adsr, setAdsr, instrument, setInstrument } = usePianoStore();
+  const { adsr, setAdsr, lfo, setLfo, instrument, setInstrument } = usePianoStore();
   const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -105,7 +105,24 @@ const Hero = () => {
           />
         </div>
 
-
+        <div className="flex gap-4">
+          <AdsrSlider
+            label="LFO Rate"
+            value={lfo.frequency}
+            min={0.1}
+            max={20}
+            step={0.1}
+            onChange={(v) => setLfo({ frequency: v })}
+          />
+          <AdsrSlider
+            label="LFO Depth"
+            value={lfo.depth}
+            min={0}
+            max={1}
+            step={0.01}
+            onChange={(v) => setLfo({ depth: v })}
+          />
+        </div>
       </div>
     </div>
   );

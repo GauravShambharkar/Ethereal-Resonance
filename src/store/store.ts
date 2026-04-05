@@ -15,6 +15,11 @@ interface AdsrSettings {
   release: number;
 }
 
+interface LfoSettings {
+  frequency: number;
+  depth: number;
+}
+
 interface PianoState {
   keyCount: number;
   setKeyCount: (count: number) => void;
@@ -26,6 +31,8 @@ interface PianoState {
   setIsMetronomePlaying: (playing: boolean) => void;
   adsr: AdsrSettings;
   setAdsr: (adsr: Partial<AdsrSettings>) => void;
+  lfo: LfoSettings;
+  setLfo: (lfo: Partial<LfoSettings>) => void;
   oscillatorType: Tone.ToneOscillatorType;
   setOscillatorType: (type: Tone.ToneOscillatorType) => void;
   reverb: number;
@@ -65,6 +72,14 @@ export const usePianoStore = create<PianoState>()(
       setAdsr: (adsr) =>
         set((state) => ({
           adsr: { ...state.adsr, ...adsr },
+        })),
+      lfo: {
+        frequency: 1,
+        depth: 0,
+      },
+      setLfo: (lfo) =>
+        set((state) => ({
+          lfo: { ...state.lfo, ...lfo },
         })),
       oscillatorType: "fatsawtooth22" as Tone.ToneOscillatorType,
       setOscillatorType: (type) => set({ oscillatorType: type }),
