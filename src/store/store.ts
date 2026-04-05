@@ -1,0 +1,68 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import * as Tone from "tone";
+
+interface ExportSettings {
+  format: string;
+  sampleRate: string;
+  bitDepth: string;
+}
+
+interface AdsrSettings {
+  attack: number;
+  decay: number;
+  sustain: number;
+  release: number;
+}
+
+interface PianoState {
+  keyCount: number;
+  setKeyCount: (count: number) => void;
+  exportSettings: ExportSettings;
+  setExportSettings: (settings: Partial<ExportSettings>) => void;
+  bpm: number;
+  setBpm: (bpm: number) => void;
+  isMetronomePlaying: boolean;
+  setIsMetronomePlaying: (playing: boolean) => void;
+  adsr: AdsrSettings;
+  setAdsr: (adsr: Partial<AdsrSettings>) => void;
+  oscillatorType: Tone.ToneOscillatorType;
+  setOscillatorType: (type: Tone.ToneOscillatorType) => void;
+}
+
+export const usePianoStore = create<PianoState>()(
+  persist(
+    (set) => ({
+      keyCount: 12,
+      setKeyCount: (count) => set({ keyCount: count }),
+      exportSettings: {
+        format: "wave",
+        sampleRate: "sr-96",
+        bitDepth: "bd-32",
+      },
+      setExportSettings: (settings) =>
+        set((state) => ({
+          exportSettings: { ...state.exportSettings, ...settings },
+        })),
+      bpm: 72,
+      setBpm: (bpm) => set({ bpm }),
+      isMetronomePlaying: false,
+      setIsMetronomePlaying: (playing) => set({ isMetronomePlaying: playing }),
+      adsr: {
+        attack: 0.05,
+        decay: 0.1,
+        sustain: 0.3,
+        release: 1,
+      },
+      setAdsr: (adsr) =>
+        set((state) => ({
+          adsr: { ...state.adsr, ...adsr },
+        })),
+      oscillatorType: "fatsawtooth22" as Tone.ToneOscillatorType,
+      setOscillatorType: (type) => set({ oscillatorType: type }),
+    }),
+    {
+      name: "ethereal-piano-storage",
+    }
+  )
+);

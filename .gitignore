@@ -17,6 +17,9 @@ design.md
 /.next/
 /out/
 
+
+mcp.json
+
 # production
 /build
 
