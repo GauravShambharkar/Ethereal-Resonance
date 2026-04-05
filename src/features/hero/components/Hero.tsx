@@ -2,6 +2,7 @@
 
 import React from "react";
 import { usePianoStore } from "@/store/store";
+import ExploreModal from "./ExploreModal";
 
 const AdsrSlider = ({
   label,
@@ -70,7 +71,9 @@ const Hero = () => {
       </div>
 
       <div className="flex items-end gap-8">
-        <div className="flex gap-4 border-r border-outline-variant/10 pr-8">
+        <div className="flex flex-row items-center gap-6 border-r border-outline-variant/10 pr-8">
+          <ExploreModal />
+          <div className="flex gap-4 items-end">
           <AdsrSlider
             label="Attack"
             value={adsr.attack}
@@ -103,6 +106,7 @@ const Hero = () => {
             step={0.01}
             onChange={(v) => setAdsr({ release: v })}
           />
+          </div>
         </div>
 
         <div className="flex gap-4">
