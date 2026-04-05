@@ -52,7 +52,7 @@ export const PianoKeys = ({
                 </div>
             </div>
             {blackKeyNote && (
-                <div 
+                <div
                     onClick={(e) => {
                         e.stopPropagation();
                         playNote(blackKeyNote);

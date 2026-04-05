@@ -2,7 +2,7 @@
 
 import React from "react";
 import { usePianoStore } from "@/store/store";
-import { usePianoKeys } from "@/features/piano/pianoKeys.hook";
+import { usePianoKeys } from "@/features/piano/hooks/pianoKeys.hook";
 
 const Sidebar = () => {
   const { setKeyCount: setStoreKeyCount } = usePianoStore();
@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-full flex flex-col items-center py-12 z-40 bg-surface-container-low/80 backdrop-blur-xl w-20 shadow-[40px_0_60px_-15px_rgba(170,202,234,0.04)]">
+    <aside className="w-20 flex flex-col items-center py-12 z-40 bg-surface-container-low/80 backdrop-blur-xl shadow-[40px_0_60px_-15px_rgba(170,202,234,0.04)]">
 
       <div className="flex flex-col gap-8 grow justify-center w-full">
         {options.map((item) => (

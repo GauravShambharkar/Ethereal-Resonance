@@ -12,31 +12,32 @@ export default function Home() {
   const [isExportModalOpen, setIsExportModalOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-background text-on-surface overflow-hidden">
-      {/* Navigation */}
-      <Navbar onExportClick={() => setIsExportModalOpen(true)} />
-
+    <div className="flex h-screen bg-background text-on-surface overflow-hidden">
       {/* Sidebar Controls */}
       <Sidebar />
 
-      {/* Main Content Area */}
-      <main className="ml-20 pt-24 h-screen flex flex-col relative overflow-hidden">
-        {/* Branding & Status Info */}
-        <Hero />
+      <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Navigation */}
+        <Navbar onExportClick={() => setIsExportModalOpen(true)} />
 
-        {/* Piano Instrument */}
-        <Piano />
+        {/* Main Content Area */}
+        <main className="flex-1 flex flex-col overflow-hidden">
+          {/* Branding & Status Info */}
+          <Hero />
 
-        {/* Bottom Control Dashboard */}
-        <Dashboard />
-      </main>
+          {/* Piano Instrument */}
+          <Piano />
+
+          {/* Bottom Control Dashboard */}
+          <Dashboard />
+        </main>
+      </div>
 
       {/* Export Selection Modal */}
       <ExportModal
         isOpen={isExportModalOpen}
         onClose={() => setIsExportModalOpen(false)}
       />
-
     </div>
   );
 }

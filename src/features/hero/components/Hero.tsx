@@ -46,7 +46,7 @@ const Hero = () => {
   if (!isMounted) return null;
 
   return (
-    <div className="px-12 pt-6 z-10 flex justify-between items-end">
+    <div className="px-12 pt-6 flex justify-between items-end">
       <div className="space-y-2">
         <h1 className="font-headline text-3xl font-extralight tracking-tighter text-on-surface opacity-90">
           Piano
@@ -93,17 +93,7 @@ const Hero = () => {
           />
         </div>
 
-        <div className="text-right flex flex-col gap-1">
-          <span className="font-label text-[10px] uppercase tracking-widest text-primary">
-            Master Velocity
-          </span>
-          <div className="w-48 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-            <div
-              className="w-[65%] h-full bg-primary shadow-[0_0_10px_#aacaea]"
-              style={{ width: "65%" }}
-            ></div>
-          </div>
-        </div>
+        
       </div>
     </div>
   );
