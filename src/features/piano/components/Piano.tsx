@@ -43,7 +43,7 @@ const Piano = () => {
             key={`${key.note}-${i}`}
             note={key.note}
             blackKeyNote={key.blackKeyNote && i < currentKeys.length - 1 ? key.blackKeyNote : undefined}
-            isActive={i === 2}
+            isActive={false}
           />
         ))}
       </div>
