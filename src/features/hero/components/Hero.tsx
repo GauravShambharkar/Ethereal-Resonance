@@ -37,6 +37,13 @@ const AdsrSlider = ({
 
 const Hero = () => {
   const { adsr, setAdsr } = usePianoStore();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div className="px-12 pt-6 z-10 flex justify-between items-end">

@@ -6,12 +6,19 @@ import SoundSelectionModal from "./SoundSelectionModal";
 const Dashboard = () => {
   const { bpm, oscillatorType } = usePianoStore();
   const { isSoundModalOpen, setIsSoundModalOpen } = useDashboardStore();
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
     <div className="px-12 pb-6 z-10">
       <div className="grid grid-cols-4 gap-4">
         {/* Sound Selection Card */}
-        <button 
+        <button
           onClick={() => setIsSoundModalOpen(true)}
           className="bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group hover:border-primary/30 transition-all duration-500 text-left relative overflow-hidden"
         >
@@ -29,9 +36,9 @@ const Dashboard = () => {
           </div>
         </button>
 
-        <SoundSelectionModal 
-          isOpen={isSoundModalOpen} 
-          onClose={() => setIsSoundModalOpen(false)} 
+        <SoundSelectionModal
+          isOpen={isSoundModalOpen}
+          onClose={() => setIsSoundModalOpen(false)}
         />
 
         {/* Reverb Card */}
