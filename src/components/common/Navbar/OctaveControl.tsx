@@ -17,11 +17,10 @@ export const OctaveControl = () => {
           <button
             key={oct}
             onClick={() => setBaseOctave(oct)}
-            className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold font-headline transition-all duration-300 active:scale-75 ${
-              baseOctave === oct
+            className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold font-headline transition-all duration-300 active:scale-75 ${baseOctave === oct
                 ? "bg-primary/10 text-primary shadow-[0_0_15px_rgba(170,202,234,0.1)] border border-primary/20"
                 : "text-on-surface-variant/40 hover:text-primary hover:bg-white/5 border border-transparent cursor-pointer"
-            }`}
+              }`}
           >
             {oct}
           </button>

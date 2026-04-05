@@ -36,7 +36,7 @@ const AdsrSlider = ({
 );
 
 const Hero = () => {
-  const { adsr, setAdsr } = usePianoStore();
+  const { adsr, setAdsr, instrument, setInstrument } = usePianoStore();
   const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -48,9 +48,21 @@ const Hero = () => {
   return (
     <div className="px-12 pt-6 flex justify-between items-end">
       <div className="space-y-2">
-        <h1 className="font-headline text-3xl font-extralight tracking-tighter text-on-surface opacity-90">
-          Piano
-        </h1>
+        <div className="flex items-center gap-4">
+          <button 
+             onClick={() => setInstrument("piano")}
+             className={`font-headline text-3xl font-extralight tracking-tighter transition-all ${instrument === "piano" ? "text-on-surface opacity-90" : "text-on-surface-variant opacity-40 hover:opacity-70"}`}
+          >
+             Piano
+          </button>
+          <span className="text-on-surface-variant/20 tracking-widest font-thin text-3xl">/</span>
+          <button 
+             onClick={() => setInstrument("synth")}
+             className={`font-headline text-3xl font-extralight tracking-tighter transition-all ${instrument === "synth" ? "text-on-surface opacity-90" : "text-on-surface-variant opacity-40 hover:opacity-70"}`}
+          >
+             Synthz
+          </button>
+        </div>
         <p className="font-label text-[10px] uppercase tracking-[0.4em] text-on-surface-variant flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-primary shadow-[0_0_8px_#aacaea]"></span>
           Live Input Active • 440Hz Standard
@@ -93,7 +105,7 @@ const Hero = () => {
           />
         </div>
 
-        
+
       </div>
     </div>
   );

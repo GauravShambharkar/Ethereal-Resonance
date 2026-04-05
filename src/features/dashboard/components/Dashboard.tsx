@@ -5,7 +5,7 @@ import { useDashboardStore } from "../store/dashboard.store";
 import SoundSelectionModal from "./SoundSelectionModal";
 
 const Dashboard = () => {
-  const { bpm, oscillatorType, reverb, setReverb, delay, setDelay } = usePianoStore();
+  const { bpm, oscillatorType, reverb, setReverb, delay, setDelay, instrument } = usePianoStore();
   const { isSoundModalOpen, setIsSoundModalOpen } = useDashboardStore();
   const [isMounted, setIsMounted] = React.useState(false);
 
@@ -20,10 +20,10 @@ const Dashboard = () => {
       <div className="grid grid-cols-4 gap-4">
         {/* Sound Selection Card */}
         <DashboardCard
-          label="Current Sound"
-          value={oscillatorType.replace("fatsawtooth22", "Nocturnal Echo")}
-          icon="tune"
-          onClick={() => setIsSoundModalOpen(true)}
+          label={instrument === "piano" ? "Acoustic Element" : "Current Synth"}
+          value={instrument === "piano" ? "Grand Piano" : oscillatorType.replace("fatsawtooth22", "Nocturnal Echo")}
+          icon={instrument === "piano" ? "piano" : "tune"}
+          onClick={instrument === "piano" ? undefined : () => setIsSoundModalOpen(true)}
         />
 
         <SoundSelectionModal
