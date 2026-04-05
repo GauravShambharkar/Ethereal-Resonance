@@ -28,7 +28,7 @@ export const useKeySound = () => {
       depth: lfo.depth,
       baseFrequency: 500,
       octaves: 4,
-    }).start().connect(delayRef.current);
+    }).connect(delayRef.current);
 
     // Piano sampler integration
     pianoRef.current = new Tone.Sampler({
@@ -143,6 +143,7 @@ export const useKeySound = () => {
     // Ensure the audio context starts on user interaction
     if (Tone.getContext().state !== "running") {
       await Tone.start();
+      autoFilterRef.current?.start();
     }
 
     if (instrument === "piano") {
