@@ -25,9 +25,8 @@ export const DashboardCard = ({
   return (
     <Component
       onClick={onClick}
-      className={`bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group transition-all duration-500 text-left relative overflow-hidden ${
-        isButton ? "hover:border-primary/30 cursor-pointer" : ""
-      } ${className}`}
+      className={`bg-surface-container-low border border-outline-variant/10 p-4 rounded-lg group transition-all duration-500 text-left relative overflow-hidden ${isButton ? "hover:border-primary/30 cursor-pointer" : ""
+        } ${className}`}
     >
       {isButton && (
         <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -42,7 +41,7 @@ export const DashboardCard = ({
           </span>
         )}
         {icon && (
-          <span className="material-symbols-outlined text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+          <span className="material-symbols-outlined text-primary opacity-100 group-hover:opacity-80 transition-opacity">
             {icon}
           </span>
         )}
