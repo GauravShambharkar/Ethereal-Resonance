@@ -1,6 +1,6 @@
 "use client";
 
-export const useKeyMapping = (keyCount: number) => {
+export const useKeyMapping = (keyCount: number, baseOctave: number = 1) => {
     const getKeys = () => {
         const notes = ["C", "D", "E", "F", "G", "A", "B"];
         const blackKeyNotes = ["C#", "D#", "", "F#", "G#", "A#", ""];
@@ -8,7 +8,7 @@ export const useKeyMapping = (keyCount: number) => {
         const keys = [];
         for (let i = 0; i < keyCount; i++) {
             const noteIndex = i % 7;
-            const octave = Math.floor(i / 7) + 1;
+            const octave = Math.floor(i / 7) + baseOctave;
             keys.push({
                 note: `${notes[noteIndex]}${octave}`,
                 blackKeyNote: blackKeyNotes[noteIndex] ? `${blackKeyNotes[noteIndex]}${octave}` : undefined

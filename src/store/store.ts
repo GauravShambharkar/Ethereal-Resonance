@@ -32,6 +32,8 @@ interface PianoState {
   setReverb: (reverb: number) => void;
   delay: number;
   setDelay: (delay: number) => void;
+  baseOctave: number;
+  setBaseOctave: (octave: number) => void;
 }
 
 export const usePianoStore = create<PianoState>()(
@@ -68,6 +70,8 @@ export const usePianoStore = create<PianoState>()(
       setReverb: (reverb) => set({ reverb }),
       delay: 0.3,
       setDelay: (delay) => set({ delay }),
+      baseOctave: 2,
+      setBaseOctave: (octave) => set({ baseOctave: octave }),
     }),
     {
       name: "ethereal-piano-storage",

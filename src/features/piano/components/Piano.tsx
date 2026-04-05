@@ -6,17 +6,20 @@ import { PianoKeys } from "./PianoKeys";
 import { usePianoKeys } from "../hooks/pianoKeys.hook";
 
 import { useKeyMapping } from "../hooks/useKeyMapping.hook";
+import { useKeyboardPiano } from "../hooks/useKeyboardPiano.hook";
 
 const Piano = () => {
   const { keyCount: urlKeyCount } = usePianoKeys();
-  const [isMounted, setIsMounted] = React.useState(false);
+  const { baseOctave } = usePianoStore();
+  const [isMounted, ReactIsMounted] = React.useState(false);
 
   React.useEffect(() => {
-    setIsMounted(true);
+    ReactIsMounted(true);
   }, []);
 
   const keyCountValue = parseInt(urlKeyCount?.totalKeys || "12");
-  const { keys: currentKeys } = useKeyMapping(keyCountValue);
+  const { keys: currentKeys } = useKeyMapping(keyCountValue, baseOctave);
+  const { activeNotes } = useKeyboardPiano(baseOctave);
 
   if (!isMounted) return null;
 
@@ -28,7 +31,8 @@ const Piano = () => {
             key={`${key.note}-${i}`}
             note={key.note}
             blackKeyNote={key.blackKeyNote && i < currentKeys.length - 1 ? key.blackKeyNote : undefined}
-            isActive={false}
+            isWhiteActive={activeNotes.includes(key.note)}
+            isBlackActive={key.blackKeyNote ? activeNotes.includes(key.blackKeyNote) : false}
           />
         ))}
       </div>

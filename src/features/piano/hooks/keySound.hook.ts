@@ -48,15 +48,18 @@ export const useKeySound = () => {
     };
   }, [adsr, oscillatorType, reverb, delay]);
 
-  const playNote = useCallback(async (note: string) => {
+  const startNote = useCallback(async (note: string) => {
     // Ensure the audio context starts on user interaction
     if (Tone.getContext().state !== "running") {
       await Tone.start();
     }
 
-    // Trigger the note slightly for a professional responsive feel
-    synthRef.current?.triggerAttackRelease(note, "8n");
+    synthRef.current?.triggerAttack(note);
   }, []);
 
-  return { playNote };
+  const stopNote = useCallback(async (note: string) => {
+      synthRef.current?.triggerRelease(note);
+  }, []);
+
+  return { startNote, stopNote };
 };

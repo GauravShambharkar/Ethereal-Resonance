@@ -16,8 +16,8 @@ const Sidebar = () => {
   if (!isMounted) return null;
 
   const options = [
-    { label: "12 Keys", value: "12", icon: "apps" },
-    { label: "24 Keys", value: "24", icon: "grid_view" },
+    { label: "7 Keys", value: "7", icon: "apps" },
+    { label: "12 Keys", value: "12", icon: "grid_view" },
   ];
 
   const handleKeySelect = (value: string) => {
