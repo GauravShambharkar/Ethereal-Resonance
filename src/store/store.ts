@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import * as Tone from "tone";
 
 interface ExportSettings {
@@ -28,6 +28,10 @@ interface PianoState {
   setAdsr: (adsr: Partial<AdsrSettings>) => void;
   oscillatorType: Tone.ToneOscillatorType;
   setOscillatorType: (type: Tone.ToneOscillatorType) => void;
+  reverb: number;
+  setReverb: (reverb: number) => void;
+  delay: number;
+  setDelay: (delay: number) => void;
 }
 
 export const usePianoStore = create<PianoState>()(
@@ -60,9 +64,14 @@ export const usePianoStore = create<PianoState>()(
         })),
       oscillatorType: "fatsawtooth22" as Tone.ToneOscillatorType,
       setOscillatorType: (type) => set({ oscillatorType: type }),
+      reverb: 0.5,
+      setReverb: (reverb) => set({ reverb }),
+      delay: 0.3,
+      setDelay: (delay) => set({ delay }),
     }),
     {
       name: "ethereal-piano-storage",
+      // storage: createJSONStorage(() => sessionStorage),
     }
   )
 );

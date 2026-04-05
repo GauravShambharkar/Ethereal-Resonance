@@ -3,13 +3,35 @@ import { useEffect, useRef, useCallback } from "react";
 import { usePianoStore } from "@/store/store";
 
 export const useKeySound = () => {
-  // Use a ref to store the synth instance across renders
   const synthRef = useRef<Tone.PolySynth | null>(null);
-  const { adsr, oscillatorType } = usePianoStore();
+  const reverbRef = useRef<Tone.Reverb | null>(null);
+  const delayRef = useRef<Tone.FeedbackDelay | null>(null);
+  const { adsr, oscillatorType, reverb, delay } = usePianoStore();
 
   useEffect(() => {
-    // Initialize a polysynth with dynamic settings
-    synthRef.current = new Tone.PolySynth(Tone.Synth, {
+    // Effect chain setup
+    reverbRef.current = new Tone.Reverb({
+      decay: 6,
+      wet: reverb,
+    }).toDestination();
+
+    delayRef.current = new Tone.FeedbackDelay({
+      delayTime: "8n",
+      feedback: 0.4,
+      wet: delay,
+    }).connect(reverbRef.current);
+
+    // Map oscillator types to more complex synth engines
+    const getSynthType = (type: string) => {
+      if (type.includes("fat")) return Tone.FMSynth;
+      if (type === "pwm") return Tone.AMSynth;
+      if (type === "pulse") return Tone.MonoSynth;
+      return Tone.Synth;
+    }
+
+    const synthType = getSynthType(oscillatorType);
+
+    synthRef.current = new Tone.PolySynth(synthType as any, {
       oscillator: { type: oscillatorType } as any,
       envelope: {
         attack: adsr.attack,
@@ -17,12 +39,14 @@ export const useKeySound = () => {
         sustain: adsr.sustain,
         release: adsr.release,
       },
-    } as any).toDestination();
+    } as any).connect(delayRef.current);
 
     return () => {
       synthRef.current?.dispose();
+      reverbRef.current?.dispose();
+      delayRef.current?.dispose();
     };
-  }, [adsr, oscillatorType]);
+  }, [adsr, oscillatorType, reverb, delay]);
 
   const playNote = useCallback(async (note: string) => {
     // Ensure the audio context starts on user interaction

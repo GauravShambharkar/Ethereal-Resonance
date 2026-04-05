@@ -16,7 +16,7 @@ export const PianoKeys = ({
         <div className="relative group">
             <div
                 onClick={() => playNote(note)}
-                className={`piano-key-white w-16 h-80 rounded-b-lg cursor-pointer transition-all ease-in-out duration-500 hover:brightness-110 active:brightness-90 active:scale-[0.98] relative flex flex-col justify-end items-center pb-6 border-t border-white/10 ${isActive ? "shadow-[0_0_40px_rgba(170,202,234,0.15)]" : ""
+                className={`piano-key-white w-16 h-80 rounded-b-lg cursor-pointer transition-all ease-in-out duration-500 hover:brightness-110 active:brightness-90 active:scale-[0.98] flex flex-col justify-end items-center pb-6 border-t border-white/10 ${isActive ? "shadow-[0_0_40px_rgba(170,202,234,0.15)]" : ""
                     }`}
             >
                 <div
