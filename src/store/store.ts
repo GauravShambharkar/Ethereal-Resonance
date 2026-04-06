@@ -48,7 +48,7 @@ interface PianoState {
 export const usePianoStore = create<PianoState>()(
   persist(
     (set) => ({
-      keyCount: 12,
+      keyCount: 7,
       setKeyCount: (count) => set({ keyCount: count }),
       exportSettings: {
         format: "wave",
