@@ -18,23 +18,41 @@ const AdsrSlider = ({
   max: number;
   step: number;
   onChange: (val: number) => void;
-}) => (
-  <div className="flex flex-col gap-1 items-end min-w-[60px]">
-    <span className="font-label text-[8px] uppercase tracking-widest text-on-surface-variant">
-      {label}
-    </span>
-    <input
-      type="range"
-      min={min}
-      max={max}
-      step={step}
-      value={value}
-      onChange={(e) => onChange(parseFloat(e.target.value))}
-      className="w-16 h-[2px] bg-surface-container-highest appearance-none cursor-pointer accent-primary hover:accent-primary/80 transition-all [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
-    />
-    <span className="font-label text-[8px] text-primary/60">{value.toFixed(2)}</span>
-  </div>
-);
+}) => {
+  const [localValue, setLocalValue] = React.useState(value);
+
+  React.useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
+
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localValue !== value) {
+        console.log(`[Debounced UI] updating store for "${label}" to:`, localValue);
+        onChange(localValue);
+      }
+    }, 350);
+    return () => clearTimeout(handler);
+  }, [localValue, onChange, value, label]);
+
+  return (
+    <div className="flex flex-col gap-1 items-end min-w-[60px]">
+      <span className="font-label text-[8px] uppercase tracking-widest text-on-surface-variant">
+        {label}
+      </span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={localValue}
+        onChange={(e) => setLocalValue(parseFloat(e.target.value))}
+        className="w-16 h-[2px] bg-surface-container-highest appearance-none cursor-pointer accent-primary hover:accent-primary/80 transition-all [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary"
+      />
+      <span className="font-label text-[8px] text-primary/60">{localValue.toFixed(2)}</span>
+    </div>
+  );
+};
 
 const Hero = () => {
   const { adsr, setAdsr, lfo, setLfo, instrument, setInstrument } = usePianoStore();

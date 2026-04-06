@@ -4,6 +4,40 @@ import { DashboardCard } from "./DashboardCard";
 import { useDashboardStore } from "../store/dashboard.store";
 import SoundSelectionModal from "./SoundSelectionModal";
 
+const DebouncedDashboardSlider = ({ value, onChange, label }: { value: number, onChange: (v: number) => void, label: string }) => {
+  const [localValue, setLocalValue] = React.useState(value);
+
+  React.useEffect(() => {
+    setLocalValue(value);
+  }, [value]);
+
+  React.useEffect(() => {
+    const handler = setTimeout(() => {
+      if (localValue !== value) {
+        console.log(`[Debounced UI] updating store for "${label}" to:`, localValue);
+        onChange(localValue);
+      }
+    }, 350);
+    return () => clearTimeout(handler);
+  }, [localValue, onChange, value, label]);
+
+  return (
+    <div className="flex flex-col gap-4 w-full relative">
+      <span className="font-label text-[10px] text-primary absolute right-0 top-[-26px]">
+        {Math.round(localValue * 100)}%
+      </span>
+      <input 
+        type="range"
+        min="0"
+        max="1"
+        step="0.01"
+        value={localValue}
+        onChange={(e) => setLocalValue(parseFloat(e.target.value))}
+        className="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary rounded-full"
+      />
+    </div>
+  );
+};
 const Dashboard = () => {
   const { bpm, oscillatorType, reverb, setReverb, delay, setDelay, instrument } = usePianoStore();
   const { isSoundModalOpen, setIsSoundModalOpen } = useDashboardStore();
@@ -33,38 +67,12 @@ const Dashboard = () => {
 
         {/* Reverb Card */}
         <DashboardCard label="Reverb Depth">
-          <div className="flex flex-col gap-4 w-full relative">
-            <span className="font-label text-[10px] text-primary absolute right-0 top-[-26px]">
-              {Math.round(reverb * 100)}%
-            </span>
-            <input 
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={reverb}
-              onChange={(e) => setReverb(parseFloat(e.target.value))}
-              className="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary rounded-full"
-            />
-          </div>
+          <DebouncedDashboardSlider value={reverb} onChange={setReverb} label="Reverb Depth" />
         </DashboardCard>
 
         {/* Delay Card */}
         <DashboardCard label="Echo Decay">
-          <div className="flex flex-col gap-4 w-full relative">
-            <span className="font-label text-[10px] text-primary absolute right-0 top-[-26px]">
-              {Math.round(delay * 100)}%
-            </span>
-            <input 
-              type="range"
-              min="0"
-              max="1"
-              step="0.01"
-              value={delay}
-              onChange={(e) => setDelay(parseFloat(e.target.value))}
-              className="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary rounded-full"
-            />
-          </div>
+          <DebouncedDashboardSlider value={delay} onChange={setDelay} label="Echo Decay" />
         </DashboardCard>
 
         {/* BPM Card */}

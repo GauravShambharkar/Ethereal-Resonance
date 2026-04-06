@@ -25,12 +25,12 @@ const ExploreModal = () => {
       <ExploreTrigger isOpen={isOpen} toggleModal={toggleModal} />
 
       {isOpen && (
-        <div 
+        <div
           className="fixed top-54 right-16 w-80 bg-[#0d0d0d25] border border-outline-variant/20 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.8)] overflow-hidden z-100 backdrop-blur-xl transition-[transform_opacity] duration-0"
           style={{ transform: `translate(${position.x}px, ${position.y}px)`, touchAction: 'none' }}
         >
           {/* Header */}
-          <div 
+          <div
             className="px-4 py-3 border-b border-outline-variant/10 bg-linear-to-r from-surface-container-low to-transparent cursor-move flex justify-between items-center select-none hover:bg-surface-container/40 transition-colors"
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
@@ -44,18 +44,18 @@ const ExploreModal = () => {
           </div>
 
           <div className="flex flex-col max-h-[400px] overflow-y-auto">
-            <MusicNotesSection 
-               isActive={activeAccordion === "notes"}
-               toggle={() => toggleAccordion("notes")}
-               majorIndex={majorIndex}
-               minorIndex={minorIndex}
-               handleRandomize={handleRandomize}
-               handleReset={handleReset}
+            <MusicNotesSection
+              isActive={activeAccordion === "notes"}
+              toggle={() => toggleAccordion("notes")}
+              majorIndex={majorIndex}
+              minorIndex={minorIndex}
+              handleRandomize={handleRandomize}
+              handleReset={handleReset}
             />
-            
-            <LoopsSection 
-               isActive={activeAccordion === "loops"}
-               toggle={() => toggleAccordion("loops")}
+
+            <LoopsSection
+              isActive={activeAccordion === "loops"}
+              toggle={() => toggleAccordion("loops")}
             />
           </div>
         </div>
