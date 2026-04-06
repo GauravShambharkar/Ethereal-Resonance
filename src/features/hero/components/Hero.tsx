@@ -31,7 +31,7 @@ const AdsrSlider = ({
         console.log(`[Debounced UI] updating store for "${label}" to:`, localValue);
         onChange(localValue);
       }
-    }, 350);
+    }, 380);
     return () => clearTimeout(handler);
   }, [localValue, onChange, value, label]);
 
